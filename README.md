@@ -6,12 +6,4 @@
 [![Audit](https://github.com/Ewpratten/dirty-fsm/actions/workflows/audit.yml/badge.svg)](https://github.com/Ewpratten/dirty-fsm/actions/workflows/audit.yml)
 
 
-repo description
-
-## Installation
-
-This crate can be installed via `cargo` with:
-
-```sh
-cargo install dirty-fsm
-```
+`dirty-fsm` is a "Quick and Dirty" implementation of a finite state machine. Most of the concepts come from code I wrote as part of [`io.github.frc5024.lib5k.libkontrol`](https://github.com/frc5024/lib5k/tree/d1c53dcbda38824866e4117461315b26ba51905e/lib5k/src/main/java/io/github/frc5024/libkontrol/statemachines)
