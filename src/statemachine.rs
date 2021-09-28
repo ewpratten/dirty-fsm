@@ -61,7 +61,7 @@ where
     }
 
     /// Run a single iteration of the state machine
-    pub fn run(&mut self, context: &mut Context) -> Result<(), Error> {
+    pub fn run(&mut self, context: &Context) -> Result<(), Error> {
         trace!("Executing a single iteration of the state machine");
         #[cfg(feature = "puffin")]
         puffin::profile_function!();
@@ -80,7 +80,7 @@ where
                 puffin::profile_scope!("first_run");
 
                 // Execute the first run fn
-                action.on_first_run(context)?;
+                action.on_first_run(&context)?;
             }
 
             // Calculate the time delta
@@ -92,7 +92,7 @@ where
                 #[cfg(feature = "puffin")]
                 puffin::profile_scope!("execute");
 
-                let control = action.execute(&time_delta, context)?;
+                let control = action.execute(&time_delta, &context)?;
 
                 // Handle the control flags
                 self.last_state = self.current_state.clone();

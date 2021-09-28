@@ -19,10 +19,10 @@ pub trait Action<S, E, Context>: Debug {
     fn on_register(&mut self) -> Result<(), E>;
 
     /// Called once each time this action is switched to from another state
-    fn on_first_run(&mut self, context: &mut Context) -> Result<(), E>;
+    fn on_first_run(&mut self, context: &Context) -> Result<(), E>;
 
     /// Called on every state machine iteration while this action's state is active
-    fn execute(&mut self, delta: &Duration, context: &mut Context) -> Result<ActionFlag<S>, E>;
+    fn execute(&mut self, delta: &Duration, context: &Context) -> Result<ActionFlag<S>, E>;
 
     /// Called on the last iteration of this action's state
     fn on_finish(&mut self, interrupted: bool) -> Result<(), E>;
