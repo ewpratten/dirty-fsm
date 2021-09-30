@@ -59,12 +59,32 @@ where
         self.action_map.insert(state, Box::new(action));
         Ok(())
     }
+
     /// Remove an action from the state machine
     pub fn remove_action(&mut self, state: S) {
         #[cfg(feature = "puffin")]
         puffin::profile_function!();
 
         self.action_map.remove(&state);
+    }
+
+    /// Force-change the current state to something else
+    pub fn force_change_state(&mut self, state: S) -> Result<(), Error> {
+        #[cfg(feature = "puffin")]
+        puffin::profile_function!();
+
+        // End the current state
+        if self.action_map.contains_key(&self.current_state) {
+            // Fetch the current action
+            let action = self.action_map.get_mut(&self.current_state).unwrap();
+
+            // Call the finish function
+            action.on_finish(true)?;
+        }
+
+        debug!("Force-setting state to: {:?}", state);
+        self.current_state = state;
+        Ok(())
     }
 
     /// Run a single iteration of the state machine
