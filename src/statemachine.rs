@@ -10,7 +10,6 @@ pub struct StateMachine<S, Error, Context>
 where
     S: Debug + Default + Hash + Eq + Clone,
 {
-    default_state: S,
     current_state: S,
     last_state: S,
     last_timestamp: DateTime<Utc>,
@@ -19,14 +18,22 @@ where
     _phantom_context: PhantomData<Context>,
 }
 
+impl<S, Error, Context> Default for StateMachine<S, Error, Context>
+where
+    S: Debug + Default + Hash + Eq + Clone,
+{
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<S, Error, Context> StateMachine<S, Error, Context>
 where
     S: Debug + Default + Hash + Eq + Clone,
 {
-    /// Construct a new StateMachine
+    /// Construct a new `StateMachine`
     pub fn new() -> Self {
         Self {
-            default_state: S::default(),
             current_state: S::default(),
             last_state: S::default(),
             last_timestamp: Utc::now(),
@@ -80,7 +87,7 @@ where
                 puffin::profile_scope!("first_run");
 
                 // Execute the first run fn
-                action.on_first_run(&context)?;
+                action.on_first_run(context)?;
             }
 
             // Calculate the time delta
@@ -92,7 +99,7 @@ where
                 #[cfg(feature = "puffin")]
                 puffin::profile_scope!("execute");
 
-                let control = action.execute(&time_delta, &context)?;
+                let control = action.execute(&time_delta, context)?;
 
                 // Handle the control flags
                 self.last_state = self.current_state.clone();
