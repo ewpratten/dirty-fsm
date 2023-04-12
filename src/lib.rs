@@ -64,7 +64,6 @@
     nonstandard_style,
     rust_2018_idioms
 )]
-#![feature(derive_default_enum)]
 
 mod action;
 pub use action::{Action, ActionFlag};
